@@ -46,8 +46,22 @@
         <form id="addSalesOrder">
             <legend><strong>Add Sales Order</strong></legend>
             <fieldset class="fields">
-                <label>Order Date</label> <input type="date" name="orderDate">
-                <label>Customer ID</label> <input type="number" name="customerID">
+                <label>Order Date</label>
+                <input type="date" name="orderDate">
+                
+                <label>Customer ID</label>
+                <input type="number" name="customerID">
+
+                <label for="products">Products</label>
+                <select id="products" name="productID">
+                    <option>Office Chair</option>
+                    <option>Computer Desk</option>
+                    <option>Printer</option>
+                    <!-- Add more product options as needed -->
+                </select>
+
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity">
             </fieldset>
             <input class="btn" type="submit" id="addSalesOrder" value="Add a Sales Order">
             <input class="btn" type="button" value="Cancel">
