@@ -30,6 +30,11 @@ FROM Products P
 INNER JOIN Suppliers S ON P.supplierID = S.supplierID
 INNER JOIN ProductCategories PC ON P.categoryID = PC.categoryID;
 
+-- UPDATE
+UPDATE Products
+SET productName = :productName, description = :description, unitPrice = :unitPrice, quantityInStock = :quantityInStock
+WHERE productID = :productID;
+
 -- DELETE
 -- Delete a product and related entries in ProductSales (on delete CASCADE in ProductSales)
 DELETE P, PS
@@ -53,6 +58,8 @@ SELECT * FROM Customers;
 UPDATE Customers
 SET firstName = :firstName, lastName = :lastName, email = :email, phone = :phone, address = :address
 WHERE customerID = :customerID;
+
+-- No DELETE operations provided for Customers.
 
 -- SalesOrders
 -- CREATE
@@ -78,7 +85,12 @@ SELECT * FROM Suppliers WHERE supplierID = :supplierID;
 -- SELECT ALL
 SELECT * FROM Suppliers;
 
--- No DELETE or UPDATE operations provided for Suppliers.
+-- UPDATE
+UPDATE Suppliers
+SET supplierName = :supplierNamem, contactName = :contactName, email = :email, phone = :phone, address = :address
+WHERE supplierID = :supplierID;
+
+-- No DELETE operations provided for Suppliers.
 
 -- ProductSales (Many-to-Many relationship)
 -- CREATE
@@ -121,4 +133,9 @@ SELECT * FROM ProductCategories WHERE categoryID = :categoryID;
 -- SELECT ALL
 SELECT * FROM ProductCategories;
 
--- No DELETE or UPDATE operations provided for ProductCategories.
+-- UPDATE
+UPDATE ProductCategories
+SET category = :category
+WHERE categoryID = :categoryID;
+
+-- No DELETE operations provided for ProductCategories.
