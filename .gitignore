@@ -1,0 +1,4 @@
+# Tell Git to ignore the following paths, files, or folders
+
+/.vscode
+/node_modules
