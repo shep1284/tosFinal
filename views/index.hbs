@@ -1,0 +1,36 @@
+<h1>The server is running!</h1>
+<p>If you see this text, the server is <strong>definitely</strong> working!</p>
+
+{{!-- Create a table --}}
+<table>
+
+    {{!-- Header section --}}
+    <thead>
+
+        {{!-- For just the first row, we print each key of the row object as a header cell so we
+        know what each column means when the page renders --}}
+        <tr>
+            {{#each data.[0]}}
+            <th>
+                {{@key}}
+            </th>
+            {{/each}}
+        </tr>
+    </thead>
+
+    {{!-- Body section --}}
+    <tbody>
+
+        {{!-- For each row, print the given attribute, in order --}}
+        {{#each data}}
+        <tr>
+            <td>{{this.productID}}</td>
+            <td>{{this.productName}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.unitPrice}}</td>
+            <td>{{this.quantityInStock}}</td>
+            <td>{{this.supplierID}}</td>
+            <td>{{this.categoryID}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
