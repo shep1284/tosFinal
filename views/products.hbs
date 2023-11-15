@@ -32,3 +32,37 @@
         </tr>
         {{/each}}
     </tbody>
+</table>
+
+<div id="insert" style="display: block">
+    <form id="add-product-form" method="POST" action="/add-product-form">
+    <legend><strong>Add Product</strong></legend>
+    <fieldset class="fields">
+        <label for="input-name">Product Name</label>
+        <input type="text" name="input-name" id="input-name">
+        <br>
+
+        <label for="input-description">Description</label>
+        <input type="text" name="input-description" id="input-description">
+        <br>
+
+        <label for="input-unitPrice">Unit Price</label>
+        <input type="text" name="input-price" id="input-price">
+        <br>
+
+        <label for="input-quantity">Quantity in Stock</label>
+        <input type="text" name="input-quantity" id="input-quantity">
+        <br>
+
+        <label for="input-supplier">Supplier ID</label>
+        <input type="text" name="input-supplier" id="input-supplier">
+        <br>
+
+        <label for="input-category">Category ID</label>
+        <input type="text" name="input-category" id="input-category">
+        <br>
+
+        <input type="submit">
+    </fieldset>
+    </form>
+</div>
