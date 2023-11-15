@@ -64,8 +64,14 @@
         </select>
         <br>
 
-        <label for="input-category">Category ID</label>
-        <input type="text" name="input-category" id="input-category">
+        {{!-- <label for="input-category">Category ID</label> 
+        <input type="text" name="input-category" id="input-category"> --}}
+        <select name="input-category" id="input-category">
+            <option value="">Select a Category</option>
+            {{#each categories}}
+            <option value="{{this.categoryID}}">{{this.category}}</option>
+            {{/each}}
+        </select>
         <br>
 
         <input type="submit">

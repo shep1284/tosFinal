@@ -36,16 +36,19 @@ app.get('/products', function(req, res)
     {  
         let query1 = "SELECT * FROM Products;";               // Define our query
         let query2 = "SELECT * FROM Suppliers;";
+        let query3 = "SELECT * FROM ProductCategories;";
 
         db.pool.query(query1, function(error, rows, fields){    // Execute the first query
-
             // save the products
             let products = rows;
 
             db.pool.query(query2, (error, rows, fields) => {
-
                 let suppliers = rows;
-                return res.render('products', {data: products, suppliers: suppliers});     
+
+                    db.pool.query(query3, (error, rows, fields) => {
+                        let categories = rows;
+                        return res.render('products', {data: products, suppliers: suppliers, categories: categories});         
+                })
             })
         })    
     });     
