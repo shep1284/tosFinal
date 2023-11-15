@@ -169,6 +169,32 @@ app.post('/add-product-form', function(req, res){
 })
 
 
+app.post('/add-category-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let categoryName = data['input-category'] ? `'${data['input-category']}'` : 'NULL';
+
+    // Create the query and run it on the database
+    let query = `INSERT INTO ProductCategories (category) VALUES (${categoryName})`;
+
+    db.pool.query(query, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, redirect back to the root route or any desired route.
+            res.redirect('/categories');
+        }
+    });
+});
+
+
+
 
  
 // Start the server

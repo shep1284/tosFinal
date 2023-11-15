@@ -27,3 +27,17 @@
         </tr>
         {{/each}}
     </tbody>
+</table>
+
+<div id="insert" style="display: block">
+    <form id="add-category-form" method="POST" action="/add-category-form">
+        <legend><strong>Add Product Category</strong></legend>
+        <fieldset class="fields">
+            <label for="input-category">Category Name</label>
+            <input type="text" name="input-category" id="input-category">
+            <br>
+            <input type="submit" value="Add Category">
+        </fieldset>
+    </form>
+</div>
+
