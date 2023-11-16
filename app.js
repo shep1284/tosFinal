@@ -115,50 +115,50 @@ app.get('/productsales', function(req, res)
     });                                                         
 
 // form routing
-app.post('/add-product-form', function(req, res){
+app.post('/add-product-ajax', function(req, res){
     
     // capture the incoming data and parse it back to a JS object
     let data = req.body;
 
     // capture NULL values
-    let name = parseInt(data['input-name']);
+    let name = parseInt(data['name']);
     if (isNaN(name))
     {
         name = 'NULL'
     }
 
-    let description = parseInt(data['input-description']);
+    let description = parseInt(data['description']);
     if (isNaN(description))
     {
         description = 'NULL'
     }
 
-    let unitPrice = parseInt(data['input-price']);
+    let unitPrice = parseInt(data['unitprice']);
     if (isNaN(unitPrice))
     {
         unitPrice = 'NULL'
     }
 
-    let quantityInStock = parseInt(data['input-quantity']);
+    let quantityInStock = parseInt(data['quantity']);
     if (isNaN(quantityInStock))
     {
         quantityInStock = 'NULL'
     }
 
-    let supplier = parseInt(data['input-supplier']);
+    let supplier = parseInt(data['supplier']);
     if (isNaN(supplier))
     {
         supplier = 'NULL'
     }
 
-    let category = parseInt(data['input-category']);
+    let category = parseInt(data['category']);
     if (isNaN(category))
     {
         category = 'NULL'
     }
 
     // create the query and run it on that database
-    query1 = `INSERT INTO Products (productName, description, unitPrice, quantityInStock, supplierID, categoryID) VALUES ('${data['input-name']}', '${data['input-description']}', '${data['input-price']}', '${data['input-quantity']}', '${data['input-supplier']}', '${data['input-category']}')`;
+    query1 = `INSERT INTO Products (productName, description, unitPrice, quantityInStock, supplierID, categoryID) VALUES ('${data['name']}', '${data['description']}', '${data['unitprice']}', '${data['quantity']}', '${data['supplier']}', '${data['category']}')`;
     db.pool.query(query1, function(error, rows, fields){
 
         // check to see if there was an error
@@ -174,7 +174,17 @@ app.post('/add-product-form', function(req, res){
         // which automatically runs the SELECT * FROM Products and presents it on the screen.
         else
         {
-            res.redirect('/products');
+            // If there was no error, perform a SELECT * on Products
+            query2 = `SELECT * FROM Products`;
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else{
+                    res.send(rows);
+                }
+            })
         }
     })
 })
