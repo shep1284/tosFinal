@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 4124;
+const port = 4125;
 
 
 // Enable express to handle JSON and form data
@@ -24,9 +24,6 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 // Commented out while getting handlebars working
 
 // Routing
-
-
-
 app.get('/', function(req, res)
     {  
         res.render('index');                  // Render the index.hbs file, and also send the renderer                                                     // an object where 'data' is equal to the 'rows' we
@@ -34,7 +31,20 @@ app.get('/', function(req, res)
                                                         
 app.get('/products', function(req, res)
     {  
-        let query1 = "SELECT * FROM Products;";               // Define our query
+        let query1;
+        
+        // if there is no query/search string
+        if (req.query.name === undefined)
+        {
+            query1 = "SELECT * FROM Products"
+        }
+        
+        // is there is a query/search string
+        else
+        {
+            query1 = `SELECT * FROM Products WHERE productName LIKE "${req.query.name}";`;
+        }
+
         let query2 = "SELECT * FROM Suppliers;";
         let query3 = "SELECT * FROM ProductCategories;";
 
@@ -167,6 +177,36 @@ app.post('/add-product-form', function(req, res){
         }
     })
 })
+
+app.delete('/delete-product-ajax/', function(req,res,next){
+    let data = req.body;
+    let productID = parseInt(data.id);
+    let deleteProductSales = `DELETE FROM ProductSales WHERE productID = ?`;
+    let deleteProduct = `DELETE FROM Products WHERE productID = ?`;
+
+        // run the 1st query
+        db.pool.query(deleteProductSales, [productID], function(error, rows, fields){
+            if (error) {
+
+                // log the error to the terminal and send the visitor a HTTP response 400.
+                console.log(error);
+                res.sendStatus(400);
+                }
+
+                else
+                {
+                    // run the second query
+                    db.pool.query(deleteProduct, [productID], function(error, rows, fields) {
+
+                        if (error) {
+                            console.log(error);
+                            res.sendStatus(400);
+                        } else {
+                            res.sendStatus(204);
+                        }
+                    })
+                }
+        })});
 
 
 
