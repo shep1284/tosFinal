@@ -88,6 +88,8 @@ addRowToTable = (data) => {
     let supplierCell = document.createElement("TD");
     let categoryCell = document.createElement("TD");
 
+    let deleteCell = document.createElement("TD");
+
     // Fill the cells with correct data
     idCell.innerText = newRow.productID;
     nameCell.innerText = newRow.productName;
@@ -97,6 +99,12 @@ addRowToTable = (data) => {
     supplierCell.innerText = newRow.supplierID;
     categoryCell.innerText = newRow.categoryID;
 
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteProduct(newRow.productID);
+    };
+    
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(nameCell);
@@ -105,7 +113,19 @@ addRowToTable = (data) => {
     row.appendChild(quantityCell);
     row.appendChild(supplierCell);
     row.appendChild(categoryCell);
+    row.appendChild(deleteCell);
+
+    // add a custom row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.productID);
     
     // Add the row to the table
     currentTable.appendChild(row);
+    
+    // Find drop down menu, create new option fill data in the option (full name, id),
+    // then append option to drop down meneu so newly created rows via ajax will be found in it without need a refresh
+    let selectMenu = document.getElementById("mySelect");
+    let option = document.createElement("option");
+    option.text = newRow.productName;
+    option.value = newRow.productID;
+    selectMenu.add(option);
 }
