@@ -30,7 +30,7 @@ function deleteRow(productID){
     for (let i = 0, row; row = table.rows[i]; i++) {
         // iterate through rows
         // rows would be accessed using the 'row' variable assigned in the for lo
-        if (table.rows[i].getAttrbute("data-value") == productID) {
+        if (table.rows[i].getAttribute("data-value") == productID) {
             table.deleteRow(i);
             break;
         }

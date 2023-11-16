@@ -39,12 +39,12 @@
             <td>{{this.quantityInStock}}</td>
             <td>{{this.supplierID}}</td>
             <td>{{this.categoryID}}</td>
-            <td><button onclick="deleteProduct({{this.productID}})">Delete</button></td>
+            <td><button onclick="deleteProduct('{{this.productID}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
-<script src="./js/delete_product.js"></script>
+<script src="../js/delete_product.js"></script>
 
 
 <div id="insert" style="display: block">
