@@ -91,3 +91,27 @@
     </fieldset>
     </form>
 </div>
+
+<legend><strong>Update Product Supplier</strong></legend>
+<form id="update-product-form-ajax">
+
+    <label for="input-name">Product Name:</label>
+    <select name="input-name" id="mySelect">
+        <option value="test">Select a Product</option>
+        {{#each data}}
+        <option value="{{this.productID}}">{{this.productName}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-supplier">Supplier:</label>
+    <select name="input-supplier" id="input-supplier-update">
+        <option>Select a Supplier</option>
+        {{#each suppliers}}
+        <option value="{{this.supplierID}}">{{this.supplierName}}</option>
+        {{/each}}
+    </select>
+    <input type="submit">
+
+</form>
+
+<script src="./js/update_product.js"></script>
