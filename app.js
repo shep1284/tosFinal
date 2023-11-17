@@ -245,6 +245,60 @@ app.post('/add-category-form', function(req, res){
     });
 });
 
+
+app.post('/add-productsale-ajax', function(req, res) {
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // Capture NULL values
+    let productID = parseInt(data['input-productID']);
+    if (isNaN(productID)) {
+        productID = 'NULL';
+    }
+
+    let orderID = parseInt(data['input-orderID']);
+    if (isNaN(orderID)) {
+        orderID = 'NULL';
+    }
+
+    let quantitySold = parseInt(data['input-quantitySold']);
+    if (isNaN(quantitySold)) {
+        quantitySold = 'NULL';
+    }
+
+    let salePrice = parseFloat(data['input-salePrice']);
+    if (isNaN(salePrice)) {
+        salePrice = 'NULL';
+    }
+
+    // Create the query and run it on the database
+    const query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES (${productID}, ${orderID}, ${quantitySold}, ${salePrice})`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, perform a SELECT * on productsales
+            const query2 = `SELECT * FROM ProductSales;`;
+            db.pool.query(query2, function(error, rows, fields) {
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
 // Delete routing
 app.delete('/delete-product-ajax/', function(req,res,next){
     let data = req.body;
@@ -275,8 +329,6 @@ app.delete('/delete-product-ajax/', function(req,res,next){
                     })
                 }
         })});
-
-
 
 // Start the server
 app.listen(port, () => {
