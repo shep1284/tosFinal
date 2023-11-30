@@ -76,7 +76,21 @@ app.get('/categories', function(req, res)
                                                  
 app.get('/suppliers', function(req, res)
     {  
-        let query1 = "SELECT * FROM Suppliers;";               
+        let query1;
+
+        // if there is no search string
+        if (req.query.name === undefined)
+        {
+
+            query1 = "SELECT * FROM Suppliers"               
+        }
+
+        // if there is a search string
+        else
+        {
+
+            query1 = `SELECT * FROM Suppliers WHERE supplierName LIKE "${req.query.name}";`;               
+        }
 
         db.pool.query(query1, function(error, rows, fields){    
 
