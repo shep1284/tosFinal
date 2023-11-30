@@ -233,6 +233,73 @@ app.put('/put-product-ajax', function(req,res,next){
         })
 })
 
+app.post('/add-supplier-ajax', function(req, res){
+    
+    // capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // capture NULL values
+    let name = parseInt(data['name']);
+    if (isNaN(name))
+    {
+        name = 'NULL'
+    }
+
+    let contactName = parseInt(data['contactname']);
+    if (isNaN(contactName))
+    {
+        contactName = 'NULL'
+    }
+
+    let email = parseInt(data['email']);
+    if (isNaN(email))
+    {
+        email = 'NULL'
+    }
+
+    let phone = parseInt(data['phone']);
+    if (isNaN(phone))
+    {
+        phone = 'NULL'
+    }
+
+    let address = parseInt(data['address']);
+    if (isNaN(address))
+    {
+        address = 'NULL'
+    }
+
+    // create the query and run it on that database
+    query1 = `INSERT INTO Suppliers (supplierName, contactName, email, phone, address) VALUES ('${data['name']}', '${data['contactname']}', '${data['email']}', '${data['phone']}', '${data['address']}')`;
+    db.pool.query(query1, function(error, rows, fields){
+
+        // check to see if there was an error
+        if (error) {
+
+            // log the error to the terminal so we know what went wrong,
+            // and send the visitor and HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // if there was no error, we redirect back to Products route,
+        // which automatically runs the SELECT * FROM Products and presents it on the screen.
+        else
+        {
+            // If there was no error, perform a SELECT * on Products
+            query2 = `SELECT * FROM Suppliers`;
+            db.pool.query(query2, function(error, rows, fields){
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                else{
+                    res.send(rows);
+                }
+            })
+        }
+    })
+})
 
 
 app.post('/add-category-form', function(req, res){
