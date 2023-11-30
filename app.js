@@ -332,28 +332,28 @@ app.post('/add-productsale-ajax', function(req, res) {
     let data = req.body;
 
     // Capture NULL values
-    let productID = parseInt(data['input-productID']);
+    let productID = parseInt(data['product']);
     if (isNaN(productID)) {
         productID = 'NULL';
     }
 
-    let orderID = parseInt(data['input-orderID']);
+    let orderID = parseInt(data['order']);
     if (isNaN(orderID)) {
         orderID = 'NULL';
     }
 
-    let quantitySold = parseInt(data['input-quantitySold']);
+    let quantitySold = parseInt(data['quanititySold']);
     if (isNaN(quantitySold)) {
         quantitySold = 'NULL';
     }
 
-    let salePrice = parseFloat(data['input-salePrice']);
+    let salePrice = parseFloat(data['salePrice']);
     if (isNaN(salePrice)) {
         salePrice = 'NULL';
     }
 
     // Create the query and run it on the database
-    const query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES (${productID}, ${orderID}, ${quantitySold}, ${salePrice})`;
+    const query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES ('${productID}', '${orderID}', '${quantitySold}', '${salePrice}')`;
 
     db.pool.query(query1, function(error, rows, fields) {
         // Check to see if there was an error
