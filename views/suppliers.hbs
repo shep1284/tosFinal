@@ -1,6 +1,15 @@
 
+<p>Search by name using the field below. Must be full name.</p>
+<form id="search-supplier-html" method="GET" action="/suppliers">
+    <label for="input-name">Search by Supplier Name:</label>
+    <input type="text" name="name" id="input-name-html-search">
+
+    <input type="submit">
+</form>
+    <a href="/suppliers"><button>Reset</button></a>
+
 {{!-- Create a table --}}
-<table>
+<table id="supplier-table">
 
     {{!-- Header section --}}
     <thead>
