@@ -396,6 +396,93 @@ app.post('/add-productsale-ajax', function(req, res) {
     });
 });
 
+app.post('/add-customer-ajax', function (req, res) {
+
+    // capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // capture NULL values
+    let firstName = data['firstName'] ? `'${data['firstName']}'` : 'NULL';
+    let lastName = data['lastName'] ? `'${data['lastName']}'` : 'NULL';
+    let email = data['email'] ? `'${data['email']}'` : 'NULL';
+    let phone = data['phone'] ? `'${data['phone']}'` : 'NULL';
+    let address = data['address'] ? `'${data['address']}'` : 'NULL';
+
+    // create the query and run it on the database
+    let query1 = `INSERT INTO Customers (firstName, lastName, email, phone, address) VALUES (${firstName}, ${lastName}, ${email}, ${phone}, ${address})`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // check to see if there was an error
+        if (error) {
+
+            // log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // if there was no error, we redirect back to Customers route,
+        // which automatically runs the SELECT * FROM Customers and presents it on the screen.
+        else {
+            // If there was no error, perform a SELECT * on Customers
+            let query2 = `SELECT * FROM Customers`;
+
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+app.post('/add-salesorder-ajax', function (req, res) {
+
+    // capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // capture NULL values
+    let customerID = data['customerID'] ? `'${data['customerID']}'` : 'NULL';
+    let orderDate = data['orderDate'] ? `'${data['orderDate']}'` : 'NULL';
+
+    // create the query and run it on the database
+    let query1 = `INSERT INTO SalesOrders (customerID, orderDate) VALUES (${customerID}, ${orderDate})`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // check to see if there was an error
+        if (error) {
+
+            // log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // if there was no error, we redirect back to SalesOrders route,
+        // which automatically runs the SELECT * FROM SalesOrders and presents it on the screen.
+        else {
+            // If there was no error, perform a SELECT * on SalesOrders
+            let query2 = `SELECT * FROM SalesOrders`;
+
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+
+
 // Delete routing
 app.delete('/delete-product-ajax/', function(req,res,next){
     let data = req.body;
