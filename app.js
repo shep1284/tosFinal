@@ -120,11 +120,26 @@ app.get('/salesorders', function(req, res)
 
 app.get('/productsales', function(req, res)
     {  
-        let query1 = "SELECT * FROM ProductSales;";              
+        let query1 = "SELECT * FROM ProductSales;";
+        
+        let query2 = "SELECT * FROM Products;";
+
+        let query3 = "SELECT * FROM SalesOrders;";
 
         db.pool.query(query1, function(error, rows, fields){    
 
-            res.render('productsales', {data: rows});                  
+            let productSales = rows;
+
+            db.pool.query(query2, (error, rows, fields) => {
+                let products = rows;
+
+                db.pool.query(query3, (error, rows, fields) => {
+                    let orders = rows;
+                    return res.render('productsales', {data: productSales, products: products, orders: orders});
+                })
+            })
+
+              
         })                                                      
     });                                                         
 
@@ -198,10 +213,10 @@ app.post('/add-product-ajax', function(req, res){
                 else{
                     res.send(rows);
                 }
-            })
+            });
         }
-    })
-})
+    });
+});
 
 app.put('/put-product-ajax', function(req,res,next){
     let data = req.body;
@@ -353,7 +368,7 @@ app.post('/add-productsale-ajax', function(req, res) {
     }
 
     // Create the query and run it on the database
-    const query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES ('${productID}', '${orderID}', '${quantitySold}', '${salePrice}')`;
+    query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES ('${data['product']}', '${data['order']}', '${data['quantitySold']}', '${data['salePrice']}')`;
 
     db.pool.query(query1, function(error, rows, fields) {
         // Check to see if there was an error
@@ -363,7 +378,7 @@ app.post('/add-productsale-ajax', function(req, res) {
             res.sendStatus(400);
         } else {
             // If there was no error, perform a SELECT * on productsales
-            const query2 = `SELECT * FROM ProductSales;`;
+            query2 = `SELECT * FROM ProductSales;`;
             db.pool.query(query2, function(error, rows, fields) {
                 // If there was an error on the second query, send a 400
                 if (error) {
