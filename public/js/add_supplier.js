@@ -114,11 +114,5 @@ addRowToTable = (data) => {
     // Add the row to the table
     currentTable.appendChild(row);
     
-    // Find drop down menu, create new option fill data in the option (full name, id),
-    // then append option to drop down meneu so newly created rows via ajax will be found in it without need a refresh
-    let selectMenu = document.getElementById("mySelect");
-    let option = document.createElement("option");
-    option.text = newRow.supplierName;
-    option.value = newRow.supplierID;
-    selectMenu.add(option);
+
 }

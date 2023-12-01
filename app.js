@@ -223,6 +223,7 @@ app.put('/put-product-ajax', function(req,res,next){
 
     let supplier = parseInt(data.supplier);
     let product = parseInt(data.product);
+    let description = data.description;
 
     let queryUpdateSupplier = `UPDATE Products SET supplierID = ? WHERE Products.productID = ?`;
     let selectSupplier = `SELECT * FROM Products WHERE productID = ?`;
@@ -254,34 +255,34 @@ app.post('/add-supplier-ajax', function(req, res){
     let data = req.body;
 
     // capture NULL values
-    let name = parseInt(data['name']);
-    if (isNaN(name))
+    let name = data['name'];
+    if (!name)
     {
-        name = 'NULL'
+        return;
     }
 
-    let contactName = parseInt(data['contactname']);
-    if (isNaN(contactName))
+    let contactName = data['contactname'];
+    if (!contactName)
     {
-        contactName = 'NULL'
+        return;
     }
 
-    let email = parseInt(data['email']);
-    if (isNaN(email))
+    let email = data['email'];
+    if (!email)
     {
-        email = 'NULL'
+        return;
     }
 
-    let phone = parseInt(data['phone']);
-    if (isNaN(phone))
+    let phone = data['phone'];
+    if (!phone)
     {
-        phone = 'NULL'
+        return;
     }
 
-    let address = parseInt(data['address']);
-    if (isNaN(address))
+    let address = data['address'];
+    if (!address)
     {
-        address = 'NULL'
+        return;
     }
 
     // create the query and run it on that database
@@ -378,7 +379,7 @@ app.post('/add-productsale-ajax', function(req, res) {
             res.sendStatus(400);
         } else {
             // If there was no error, perform a SELECT * on productsales
-            query2 = `SELECT * FROM ProductSales;`;
+            const query2 = `SELECT * FROM ProductSales;`;
             db.pool.query(query2, function(error, rows, fields) {
                 // If there was an error on the second query, send a 400
                 if (error) {

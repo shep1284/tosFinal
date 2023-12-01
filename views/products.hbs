@@ -22,6 +22,7 @@
                 {{@key}}
             </th>
             {{/each}}
+
         </tr>
     </thead>
 
@@ -50,43 +51,38 @@
     <form id="add-product-form-ajax">
     <legend><strong>Add Product</strong></legend>
     <fieldset class="fields">
-        <label for="input-name">Product Name</label>
-        <input type="text" name="input-name" id="input-name">
-        <br>
+        <table>
+            <tr><td><label for="input-name">Product Name</label>
+            <td><input type="text" name="input-name" id="input-name"><br>
 
-        <label for="input-description">Description</label>
-        <input type="text" name="input-description" id="input-description">
-        <br>
+            <tr><td><label for="input-description">Description</label>
+            <td><input type="text" name="input-description" id="input-description"><br>
 
-        <label for="input-unit-price">Unit Price</label>
-        <input type="text" name="input-unit-price" id="input-unit-price">
-        <br>
+            <tr><td><label for="input-unit-price">Unit Price</label>
+            <td><input type="text" name="input-unit-price" id="input-unit-price"><br>
 
-        <label for="input-quantity">Quantity in Stock</label>
-        <input type="text" name="input-quantity" id="input-quantity">
-        <br>
+            <tr><td><label for="input-quantity">Quantity in Stock</label>
+            <td><input type="text" name="input-quantity" id="input-quantity"><br>
 
-        {{!-- <label for="input-supplier">Supplier ID</label> --}}
-        {{!-- <input type="text" name="input-supplier" id="input-supplier"> --}}
-        <select name="input-supplier" id="input-supplier">
-            <option value="">Select a Supplier</option>
-            {{#each suppliers}}
-            <option value="{{this.supplierID}}">{{this.supplierName}}</option>
-            {{/each}}
-        </select>
-        <br>
+            <tr><td><select name="input-supplier" id="input-supplier">
+                    <option value="">Select a Supplier</option>
+                    {{#each suppliers}}
+                    <option value="{{this.supplierID}}">{{this.supplierName}}</option>
+                    {{/each}}
+                    </select>
+                    <br>
 
-        {{!-- <label for="input-category">Category ID</label> 
-        <input type="text" name="input-category" id="input-category"> --}}
-        <select name="input-category" id="input-category">
-            <option value="">Select a Category</option>
-            {{#each categories}}
-            <option value="{{this.categoryID}}">{{this.category}}</option>
-            {{/each}}
-        </select>
-        <br>
+            <tr><td><select name="input-category" id="input-category">
+                    <option value="">Select a Category</option>
+                    {{#each categories}}
+                    <option value="{{this.categoryID}}">{{this.category}}</option>
+                    {{/each}}
+                    </select>
+                    <br>
+            
+            <tr><td><input type="submit">
 
-        <input type="submit">
+        </table>
     </fieldset>
     </form>
 </div>
@@ -102,6 +98,9 @@
         <option value="{{this.productID}}">{{this.productName}}</option>
         {{/each}}
     </select>
+
+    <label for="input-description">Description:</label>
+    <input type="text" name="input-description" id="input-description-update">
 
     <label for="input-supplier">Supplier:</label>
     <select name="input-supplier" id="input-supplier-update">

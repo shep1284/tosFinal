@@ -10,12 +10,16 @@ updateProductForm.addEventListener("submit", function (e) {
     // Get form fields we need to get data from
     let inputProductName = document.getElementById("mySelect");
     let inputSupplier = document.getElementById("input-supplier-update");
+    // console.log(inputSupplier);
+    let inputDescription = document.getElementById("input-description-update");
 
     // Get the values from the form fields
     let productNameValue = inputProductName.value;
-    let supplierValue = inputSupplier.value;
+    let supplierValue = parseInt(inputSupplier.value);
+    let descriptionValue = inputDescription.value;
 
     // Does not allow value to be updated to NULL
+    console.log(supplierValue);
     if (isNaN(supplierValue))
     {
         return;
@@ -25,6 +29,7 @@ updateProductForm.addEventListener("submit", function (e) {
     let data = {
         product: productNameValue,
         supplier: supplierValue,
+        description: descriptionValue,
     }
 
     // Setup our AJAX request
@@ -37,6 +42,7 @@ updateProductForm.addEventListener("submit", function (e) {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
             // Add the new data to the table
+            // console.log(xhttp.response);
             updateRow(xhttp.response, productNameValue);
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {
@@ -62,10 +68,10 @@ function updateRow(data, productID){
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
             // Get the td of the supplier value
-            let td = updateRowIndex.getElementsByTagName("td")[3];
+            let supplierTd = updateRowIndex.getElementsByTagName("td")[5];
 
             // Reassign supplier to our value we updated to
-            td.innerHTML = parsedData[0].supplier;
+            supplierTd.innerHTML = parsedData[0].supplier;
 
 
         }
