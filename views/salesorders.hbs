@@ -1,5 +1,5 @@
 {{!-- Create a table --}}
-<table>
+<table id="salesorders-table">
 
     {{!-- Header section --}}
     <thead>
@@ -27,3 +27,37 @@
         </tr>
         {{/each}}
     </tbody>
+</tbody>
+</table>
+
+<div id="insert" style="display: block">
+    <form id="add-salesorders-form-ajax">
+        <legend><strong>Add Sale Order</strong></legend>
+        <fieldset class="fields">
+
+
+
+            <label for="input-orderDate">Order Date</label>
+            <input type="date" name="input-orderDate" id="input-orderDate" value="{{todayDate}}">
+            <br>
+
+            <select name="input-customerID" id="input-customerID">
+            <option value="">Select a Customer</option>
+            {{#each customers}}
+            <option value="{{this.customerID}}">{{this.firstName}}</option>
+            {{/each}}
+            </select>
+            <br>
+
+            <input type="submit">
+        </fieldset>
+    </form>
+</div>
+
+
+<script>
+    // Set the default value of the order date to the current date
+    document.getElementById('input-orderDate').valueAsDate = new Date();
+</script>
+
+<script src="./js/add_salesorders.js"></script>
