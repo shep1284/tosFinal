@@ -110,11 +110,21 @@ app.get('/customers', function(req, res)
                                 
 app.get('/salesorders', function(req, res)
     {  
-        let query1 = "SELECT * FROM SalesOrders;";        
+        let query1 = "SELECT * FROM SalesOrders;";      
+        
+        let query2 = "SELECT * FROM Customers";
 
         db.pool.query(query1, function(error, rows, fields){  
 
-            res.render('salesorders', {data: rows});      
+            let orders = rows;
+
+            db.pool.query(query2, function(error, rows, fields){
+                
+                let customers = rows;
+
+                return res.render('salesorders', {data: orders, customers: customers});      
+            })
+
         })                                                
     });                                                    
 
@@ -450,7 +460,7 @@ app.post('/add-salesorder-ajax', function (req, res) {
     let orderDate = data['orderDate'] ? `'${data['orderDate']}'` : 'NULL';
 
     // create the query and run it on the database
-    let query1 = `INSERT INTO SalesOrders (customerID, orderDate) VALUES (${customerID}, ${orderDate})`;
+    let query1 = `INSERT INTO SalesOrders (customerID, orderDate) VALUES ('${data['customerID']}', '${data['orderDate']}')`;
 
     db.pool.query(query1, function (error, rows, fields) {
 
