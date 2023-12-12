@@ -156,6 +156,7 @@ app.get('/suppliers', function(req, res)
 
 app.post('/add-category-form', function(req, res){
     // Capture the incoming data and parse it back to a JS object
+    
     let data = req.body;
     
     // Capture NULL values
@@ -464,25 +465,26 @@ app.put('/put-product-ajax', function(req,res,next){
     let supplier = parseInt(data.supplier);
     let product = parseInt(data.product);
     let description = data.description;
+    let category = data.category;
 
-    let queryUpdateSupplier = `UPDATE Products SET supplierID = ?, description = ? WHERE Products.productID = ?`;
-    let selectSupplier = `SELECT * FROM Products WHERE productID = ?`;
+    let queryUpdateSupplier = `UPDATE Products SET supplierID = ?, description = ?, categoryID = ? WHERE Products.productID = ?`;
+
 
         // Run the 1st query
-        db.pool.query(queryUpdateSupplier, [supplier, description, product], function(error, rows, fields){
+        db.pool.query(queryUpdateSupplier, [supplier, description, category, product], function(error, rows, fields){
             if (error) {
                 console.log(error);
                 res.sendStatus(400);
             }
             else
             {
-                db.pool.query(selectSupplier, [supplier], function(error, rows, fields) {
+                let selectProducts = `SELECT * FROM Products`;
+                db.pool.query(selectProducts, function(error, rows, fields) {
 
                     if (error) {
                         console.log(error);
                         res.sendStatus(400);
                     } else {
-
                         res.send(rows);
                     }
                 });

@@ -9,18 +9,28 @@ updateProductForm.addEventListener("submit", function (e) {
 
     // Get form fields we need to get data from
     let inputProductName = document.getElementById("mySelect");
-    let inputSupplier = document.getElementById("input-supplier-update");
     let inputDescription = document.getElementById("input-description-update");
+    let inputSupplier = document.getElementById("input-supplier-update");
+    let inputCategory = document.getElementById("input-category-update");
 
     // Get the values from the form fields
     let productNameValue = parseInt(inputProductName.value);
-    let supplierValue = parseInt(inputSupplier.value);
     let descriptionValue = inputDescription.value;
+    let supplierValue = parseInt(inputSupplier.value);
+    let categoryValue = parseInt(inputCategory.value);
 
-    // Does not allow value to be updated to NULL
+    // NULL handling
     if (isNaN(supplierValue))
     {
         return;
+    }
+    if (isNaN(productNameValue))
+    {
+        return;
+    }
+    if (isNaN(categoryValue))
+    {
+        categoryValue = 'NULL';
     }
 
     // Put our data we want to send in a javascript object
@@ -28,6 +38,7 @@ updateProductForm.addEventListener("submit", function (e) {
         product: productNameValue,
         supplier: supplierValue,
         description: descriptionValue,
+        category: categoryValue,
     }
 
     // Setup our AJAX request
@@ -63,14 +74,15 @@ function updateRow(data, productID){
             // Get the location of the row where we found the matching productID
             let updateRowIndex = table.getElementsByTagName("tr")[i];
 
-            // Get the td of the supplier value
-            let supplierTd = updateRowIndex.getElementsByTagName("td")[5];
+            // Get the td of the value to be updated
             let descriptionTd = updateRowIndex.getElementsByTagName("td")[2];
+            let supplierTd = updateRowIndex.getElementsByTagName("td")[5];
+            let categoryTd = updateRowIndex.getElementsByTagName("td")[6];
 
-            // Reassign supplier to our value we updated to
+            // Reassign to updated value
             supplierTd.innerHTML = data.supplier;
             descriptionTd.innerHTML = data.description;
-
+            categoryTd.innerHTML = data.category;
 
         }
     }

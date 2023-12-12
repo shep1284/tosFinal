@@ -35,6 +35,10 @@ CREATE OR REPLACE TABLE Products (
     FOREIGN KEY (categoryID) REFERENCES ProductCategories(categoryID)
 );
 
+-- Allow NULL values for categoryID
+ALTER TABLE Products
+MODIFY COLUMN categoryID INT NULL;
+
 CREATE OR REPLACE TABLE Customers (
     customerID INT AUTO_INCREMENT PRIMARY KEY,
     firstName VARCHAR(50) NOT NULL,
