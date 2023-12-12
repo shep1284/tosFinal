@@ -12,7 +12,6 @@ updateProductSalesForm.addEventListener("submit", function (e) {
     let quantityValue = inputQuantity.value;
     let salePriceValue = inputSalePrice.value;
     
-    
     if (isNaN(quantityValue))
     {
         return;
@@ -49,6 +48,7 @@ updateProductSalesForm.addEventListener("submit", function (e) {
 })
 
 function updateRow(data, saleID){
+    
     let table = document.getElementById("productsales-table");
 
     for (let i = 0, row; row = table.rows[i]; i++) {

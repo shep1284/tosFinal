@@ -27,12 +27,14 @@
             <td>{{this.orderID}}</td>
             <td>{{this.quantitySold}}</td>
             <td>{{this.salePrice}}</td>
+            <td><button onclick="deleteProductSale('{{this.productSaleID}}')">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
 </table>
+<script src="../js/delete_productsale.js"></script>
 
-    <div id="insert" style="display: block">
+<div id="insert" style="display: block">
     <form id="add-productsales-form-ajax">
         <legend><strong>Add Product Sale</strong></legend>
         <fieldset class="fields">

@@ -68,13 +68,14 @@ addRowToTable = (data) => {
 
     // Create a row and 4 cells
     let row = document.createElement("TR");
+    let idCell = document.createElement("TD");
     let productIDCell = document.createElement("TD");
     let orderIDCell = document.createElement("TD");
     let quantitySoldCell = document.createElement("TD");
     let salePriceCell = document.createElement("TD");
 
     // Fill the cells with correct data
-    idCell.innerText = newRow.productsaleID;
+    idCell.innerText = newRow.productSaleID;
     productIDCell.innerText = newRow.productID;
     orderIDCell.innerText = newRow.orderID;
     quantitySoldCell.innerText = newRow.quantitySold;

@@ -482,6 +482,7 @@ app.put('/put-product-ajax', function(req,res,next){
                         console.log(error);
                         res.sendStatus(400);
                     } else {
+
                         res.send(rows);
                     }
                 });
@@ -497,7 +498,7 @@ app.put('/put-productsale-ajax', function(req,res,next){
     let salePrice = data.salePrice;
 
     let queryUpdateSale = `UPDATE ProductSales SET quantitySold = ?, salePrice = ? WHERE ProductSales.productSaleID = ?`;
-    let selectSale = `SELECT * FROM ProductSales WHERE productSaleID = ?`;
+    let selectSale = `SELECT * FROM ProductSales`;
 
         db.pool.query(queryUpdateSale, [quantitySold, salePrice, saleID], function(error, rows, fields) {
             if (error) {
@@ -511,7 +512,6 @@ app.put('/put-productsale-ajax', function(req,res,next){
                         console.log(error);
                         res.sendStatus(400);
                     } else {
-                        console.log(rows);
                         res.send(rows);
                     }
                 });
@@ -552,6 +552,26 @@ app.delete('/delete-product-ajax/', function(req,res,next){
                     })
                 }
         })});
+
+app.delete('/delete-productsale-ajax/', function(req,res,next){
+    let data = req.body;
+    let productSaleID = parseInt(data.saleID);
+    let deleteProductSales = `DELETE FROM ProductSales WHERE productSaleID = ?`;
+    let selectProductSales = `Select * FROM ProductSales`
+
+        db.pool.query(deleteProductSales, [productSaleID], function(error, rows, fields){
+            if (error) {
+
+                // log the error to the terminal and send the visitor a HTTP response 400.
+                console.log(error);
+                res.sendStatus(400);
+                }
+                else
+                {
+                res.sendStatus(204);
+                }
+            })
+        });
 
 // Start the server
 app.listen(port, () => {
