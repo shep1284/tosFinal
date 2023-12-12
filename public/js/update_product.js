@@ -30,7 +30,7 @@ updateProductForm.addEventListener("submit", function (e) {
     }
     if (isNaN(categoryValue))
     {
-        categoryValue = 'NULL';
+        categoryValue = null;
     }
 
     // Put our data we want to send in a javascript object
