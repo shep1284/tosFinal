@@ -50,7 +50,7 @@ updateProductForm.addEventListener("submit", function (e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-            console.log(JSON.parse(xhttp.responseText));
+  
 
             // Add the new data to the table
             updateRow(data, productNameValue);
