@@ -68,3 +68,25 @@
     </form>
 </div>
 <script src="./js/add_productsale.js"></script>
+
+<legend><strong>Update Product Sale</strong></legend>
+<form id="update-productsales-form-ajax">
+
+    <label for="input-productsale">Product Sale:</label>
+    <select name="input-productsale" id="saleID">
+        <option value="default">Select Product Sale ID</option>
+        {{#each data}}
+        <option value="{{this.productSaleID}}">{{this.productSaleID}}</option>
+        {{/each}}
+    </select>
+
+    <label for="input-quantity">Quantity Sold:</label>
+    <input type="number" name="input-quantity" id="input-quantity-update">
+
+    <label for="input-saleprice">Sale Price:</label>
+    <input type="number" step="0.01"="input-saleprice" id="input-saleprice-update">
+
+    <input type="submit">
+</form>
+
+<script src="./js/update_productsale.js"></script>

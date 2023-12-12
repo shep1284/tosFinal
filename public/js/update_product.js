@@ -10,7 +10,6 @@ updateProductForm.addEventListener("submit", function (e) {
     // Get form fields we need to get data from
     let inputProductName = document.getElementById("mySelect");
     let inputSupplier = document.getElementById("input-supplier-update");
-    // console.log(inputSupplier);
     let inputDescription = document.getElementById("input-description-update");
 
     // Get the values from the form fields
@@ -19,7 +18,6 @@ updateProductForm.addEventListener("submit", function (e) {
     let descriptionValue = inputDescription.value;
 
     // Does not allow value to be updated to NULL
-    //console.log(supplierValue);
     if (isNaN(supplierValue))
     {
         return;

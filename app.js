@@ -30,6 +30,26 @@ app.get('/', function(req, res)
         res.render('index');                  // Render the index.hbs file, and also send the renderer                                                     // an object where 'data' is equal to the 'rows' we
     });     
                                                         
+app.get('/categories', function(req, res)
+    {  
+        let query1 = "SELECT * FROM ProductCategories;";
+
+        db.pool.query(query1, function(error, rows, fields){
+
+            res.render('categories', {data: rows});
+        })                                                      
+    });        
+    
+app.get('/customers', function(req, res)
+{  
+    let query1 = "SELECT * FROM Customers;";            
+
+    db.pool.query(query1, function(error, rows, fields){  
+
+        res.render('customers', {data: rows});  
+    })                       
+});      
+
 app.get('/products', function(req, res)
     {  
         let query1;
@@ -62,17 +82,50 @@ app.get('/products', function(req, res)
                 })
             })
         })    
-    });     
-                                                        
-app.get('/categories', function(req, res)
+    });   
+       
+app.get('/productsales', function(req, res)
+{  
+    let query1 = "SELECT * FROM ProductSales;";
+    
+    let query2 = "SELECT * FROM Products;";
+
+    let query3 = "SELECT * FROM SalesOrders;";
+
+    db.pool.query(query1, function(error, rows, fields){    
+
+        let productSales = rows;
+
+        db.pool.query(query2, (error, rows, fields) => {
+            let products = rows;
+
+            db.pool.query(query3, (error, rows, fields) => {
+                let orders = rows;
+                return res.render('productsales', {data: productSales, products: products, orders: orders});
+            })
+        })  
+    });                                                      
+});   
+
+app.get('/salesorders', function(req, res)
     {  
-        let query1 = "SELECT * FROM ProductCategories;";
+        let query1 = "SELECT * FROM SalesOrders;";      
+        
+        let query2 = "SELECT * FROM Customers";
 
-        db.pool.query(query1, function(error, rows, fields){
+        db.pool.query(query1, function(error, rows, fields){  
 
-            res.render('categories', {data: rows});
-        })                                                      
-    });            
+            let orders = rows;
+
+            db.pool.query(query2, function(error, rows, fields){
+                
+                let customers = rows;
+
+                return res.render('salesorders', {data: orders, customers: customers});      
+            })
+
+        });                                              
+    });     
                                                  
 app.get('/suppliers', function(req, res)
     {  
@@ -95,65 +148,80 @@ app.get('/suppliers', function(req, res)
         db.pool.query(query1, function(error, rows, fields){    
 
             res.render('suppliers', {data: rows});                 
-        })                                                     
+        });                                          
     });          
                                                  
-app.get('/customers', function(req, res)
-    {  
-        let query1 = "SELECT * FROM Customers;";            
 
-        db.pool.query(query1, function(error, rows, fields){  
+// form routing / INSERTs
 
-            res.render('customers', {data: rows});  
-        })                       
-    });       
-                                
-app.get('/salesorders', function(req, res)
-    {  
-        let query1 = "SELECT * FROM SalesOrders;";      
-        
-        let query2 = "SELECT * FROM Customers";
+app.post('/add-category-form', function(req, res){
+    // Capture the incoming data and parse it back to a JS object
+    let data = req.body;
+    
+    // Capture NULL values
+    let categoryName = data['input-category'] ? `'${data['input-category']}'` : 'NULL';
+    
+    // Create the query and run it on the database
+    let query = `INSERT INTO ProductCategories (category) VALUES (${categoryName})`;
+    
+    db.pool.query(query, function(error, rows, fields){
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, redirect back to the root route or any desired route.
+            res.redirect('/categories');
+        }
+    });
+});
 
-        db.pool.query(query1, function(error, rows, fields){  
+app.post('/add-customer-ajax', function (req, res) {
 
-            let orders = rows;
+    // capture the incoming data and parse it back to a JS object
+    let data = req.body;
 
-            db.pool.query(query2, function(error, rows, fields){
-                
-                let customers = rows;
+    // capture NULL values
+    let firstName = data['firstName'] ? `'${data['firstName']}'` : 'NULL';
+    let lastName = data['lastName'] ? `'${data['lastName']}'` : 'NULL';
+    let email = data['email'] ? `'${data['email']}'` : 'NULL';
+    let phone = data['phone'] ? `'${data['phone']}'` : 'NULL';
+    let address = data['address'] ? `'${data['address']}'` : 'NULL';
 
-                return res.render('salesorders', {data: orders, customers: customers});      
-            })
+    // create the query and run it on the database
+    let query1 = `INSERT INTO Customers (firstName, lastName, email, phone, address) VALUES (${firstName}, ${lastName}, ${email}, ${phone}, ${address})`;
 
-        })                                                
-    });                                                    
+    db.pool.query(query1, function (error, rows, fields) {
 
-app.get('/productsales', function(req, res)
-    {  
-        let query1 = "SELECT * FROM ProductSales;";
-        
-        let query2 = "SELECT * FROM Products;";
+        // check to see if there was an error
+        if (error) {
 
-        let query3 = "SELECT * FROM SalesOrders;";
+            // log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
 
-        db.pool.query(query1, function(error, rows, fields){    
+        // if there was no error, we redirect back to Customers route,
+        // which automatically runs the SELECT * FROM Customers and presents it on the screen.
+        else {
+            // If there was no error, perform a SELECT * on Customers
+            let query2 = `SELECT * FROM Customers`;
 
-            let productSales = rows;
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
 
-            db.pool.query(query2, (error, rows, fields) => {
-                let products = rows;
-
-                db.pool.query(query3, (error, rows, fields) => {
-                    let orders = rows;
-                    return res.render('productsales', {data: productSales, products: products, orders: orders});
-                })
-            })
-
-              
-        })                                                      
-    });                                                         
-
-// form routing
 app.post('/add-product-ajax', function(req, res){
     
     // capture the incoming data and parse it back to a JS object
@@ -228,36 +296,99 @@ app.post('/add-product-ajax', function(req, res){
     });
 });
 
-app.put('/put-product-ajax', function(req,res,next){
+app.post('/add-productsale-ajax', function(req, res) {
+    // Capture the incoming data and parse it back to a JS object
     let data = req.body;
 
-    let supplier = parseInt(data.supplier);
-    let product = parseInt(data.product);
-    let description = data.description;
+    // Capture NULL values
+    let productID = parseInt(data['product']);
+    if (isNaN(productID)) {
+        productID = 'NULL';
+    }
 
-    let queryUpdateSupplier = `UPDATE Products SET supplierID = ? WHERE Products.productID = ?`;
-    let selectSupplier = `SELECT * FROM Products WHERE productID = ?`;
+    let orderID = parseInt(data['order']);
+    if (isNaN(orderID)) {
+        orderID = 'NULL';
+    }
 
-        // Run the 1st query
-        db.pool.query(queryUpdateSupplier, [supplier, product], function(error, rows, fields){
-            if (error) {
-                console.log(error);
-                res.sendStatus(400);
-            }
-            else
-            {
-                db.pool.query(selectSupplier, [supplier], function(error, rows, fields) {
+    let quantitySold = parseInt(data['quanititySold']);
+    if (isNaN(quantitySold)) {
+        quantitySold = 'NULL';
+    }
 
-                    if (error) {
-                        console.log(error);
-                        res.sendStatus(400);
-                    } else {
-                        res.send(rows);
-                    }
-                })
-            }
-        })
-})
+    let salePrice = parseFloat(data['salePrice']);
+    if (isNaN(salePrice)) {
+        salePrice = 'NULL';
+    }
+
+    // Create the query and run it on the database
+    query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES ('${data['product']}', '${data['order']}', '${data['quantitySold']}', '${data['salePrice']}')`;
+
+    db.pool.query(query1, function(error, rows, fields) {
+        // Check to see if there was an error
+        if (error) {
+            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error);
+            res.sendStatus(400);
+        } else {
+            // If there was no error, perform a SELECT * on productsales
+            const query2 = `SELECT * FROM ProductSales;`;
+            db.pool.query(query2, function(error, rows, fields) {
+                // If there was an error on the second query, send a 400
+                if (error) {
+                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
+                    console.log(error);
+                    res.sendStatus(400);
+                }
+                // If all went well, send the results of the query back.
+                else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
+
+app.post('/add-salesorder-ajax', function (req, res) {
+
+    // capture the incoming data and parse it back to a JS object
+    let data = req.body;
+
+    // capture NULL values
+    let customerID = data['customerID'] ? `'${data['customerID']}'` : 'NULL';
+    let orderDate = data['orderDate'] ? `'${data['orderDate']}'` : 'NULL';
+
+    // create the query and run it on the database
+    let query1 = `INSERT INTO SalesOrders (customerID, orderDate) VALUES ('${data['customerID']}', '${data['orderDate']}')`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        // check to see if there was an error
+        if (error) {
+
+            // log the error to the terminal so we know what went wrong,
+            // and send the visitor an HTTP response 400 indicating it was a bad request.
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        // if there was no error, we redirect back to SalesOrders route,
+        // which automatically runs the SELECT * FROM SalesOrders and presents it on the screen.
+        else {
+            // If there was no error, perform a SELECT * on SalesOrders
+            let query2 = `SELECT * FROM SalesOrders`;
+
+            db.pool.query(query2, function (error, rows, fields) {
+                if (error) {
+                    console.log(error);
+                    res.sendStatus(400);
+                } else {
+                    res.send(rows);
+                }
+            });
+        }
+    });
+});
 
 app.post('/add-supplier-ajax', function(req, res){
     
@@ -324,172 +455,70 @@ app.post('/add-supplier-ajax', function(req, res){
                 }
             })
         }
-    })
-})
-
-
-app.post('/add-category-form', function(req, res){
-    // Capture the incoming data and parse it back to a JS object
-    let data = req.body;
-    
-    // Capture NULL values
-    let categoryName = data['input-category'] ? `'${data['input-category']}'` : 'NULL';
-    
-    // Create the query and run it on the database
-    let query = `INSERT INTO ProductCategories (category) VALUES (${categoryName})`;
-    
-    db.pool.query(query, function(error, rows, fields){
-        // Check to see if there was an error
-        if (error) {
-            // Log the error to the terminal so we know what went wrong,
-            // and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            // If there was no error, redirect back to the root route or any desired route.
-            res.redirect('/categories');
-        }
     });
 });
 
-
-app.post('/add-productsale-ajax', function(req, res) {
-    // Capture the incoming data and parse it back to a JS object
+app.put('/put-product-ajax', function(req,res,next){
     let data = req.body;
 
-    // Capture NULL values
-    let productID = parseInt(data['product']);
-    if (isNaN(productID)) {
-        productID = 'NULL';
-    }
+    let supplier = parseInt(data.supplier);
+    let product = parseInt(data.product);
+    let description = data.description;
 
-    let orderID = parseInt(data['order']);
-    if (isNaN(orderID)) {
-        orderID = 'NULL';
-    }
+    let queryUpdateSupplier = `UPDATE Products SET supplierID = ?, description = ? WHERE Products.productID = ?`;
+    let selectSupplier = `SELECT * FROM Products WHERE productID = ?`;
 
-    let quantitySold = parseInt(data['quanititySold']);
-    if (isNaN(quantitySold)) {
-        quantitySold = 'NULL';
-    }
+        // Run the 1st query
+        db.pool.query(queryUpdateSupplier, [supplier, description, product], function(error, rows, fields){
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else
+            {
+                db.pool.query(selectSupplier, [supplier], function(error, rows, fields) {
 
-    let salePrice = parseFloat(data['salePrice']);
-    if (isNaN(salePrice)) {
-        salePrice = 'NULL';
-    }
-
-    // Create the query and run it on the database
-    query1 = `INSERT INTO ProductSales (productID, orderID, quantitySold, salePrice) VALUES ('${data['product']}', '${data['order']}', '${data['quantitySold']}', '${data['salePrice']}')`;
-
-    db.pool.query(query1, function(error, rows, fields) {
-        // Check to see if there was an error
-        if (error) {
-            // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error);
-            res.sendStatus(400);
-        } else {
-            // If there was no error, perform a SELECT * on productsales
-            const query2 = `SELECT * FROM ProductSales;`;
-            db.pool.query(query2, function(error, rows, fields) {
-                // If there was an error on the second query, send a 400
-                if (error) {
-                    // Log the error to the terminal so we know what went wrong, and send the visitor an HTTP response 400 indicating it was a bad request.
-                    console.log(error);
-                    res.sendStatus(400);
-                }
-                // If all went well, send the results of the query back.
-                else {
-                    res.send(rows);
-                }
-            });
-        }
-    });
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        res.send(rows);
+                    }
+                });
+            }
+        });
 });
 
-app.post('/add-customer-ajax', function (req, res) {
-
-    // capture the incoming data and parse it back to a JS object
+app.put('/put-productsale-ajax', function(req,res,next){
     let data = req.body;
 
-    // capture NULL values
-    let firstName = data['firstName'] ? `'${data['firstName']}'` : 'NULL';
-    let lastName = data['lastName'] ? `'${data['lastName']}'` : 'NULL';
-    let email = data['email'] ? `'${data['email']}'` : 'NULL';
-    let phone = data['phone'] ? `'${data['phone']}'` : 'NULL';
-    let address = data['address'] ? `'${data['address']}'` : 'NULL';
+    let saleID = parseInt(data.sale);
+    let quantitySold = data.quantity;
+    let salePrice = data.salePrice;
 
-    // create the query and run it on the database
-    let query1 = `INSERT INTO Customers (firstName, lastName, email, phone, address) VALUES (${firstName}, ${lastName}, ${email}, ${phone}, ${address})`;
+    let queryUpdateSale = `UPDATE ProductSales SET quantitySold = ?, salePrice = ? WHERE ProductSales.productSaleID = ?`;
+    let selectSale = `SELECT * FROM ProductSales WHERE productSaleID = ?`;
 
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // check to see if there was an error
-        if (error) {
-
-            // log the error to the terminal so we know what went wrong,
-            // and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-
-        // if there was no error, we redirect back to Customers route,
-        // which automatically runs the SELECT * FROM Customers and presents it on the screen.
-        else {
-            // If there was no error, perform a SELECT * on Customers
-            let query2 = `SELECT * FROM Customers`;
-
-            db.pool.query(query2, function (error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            });
-        }
-    });
+        db.pool.query(queryUpdateSale, [quantitySold, salePrice, saleID], function(error, rows, fields) {
+            if (error) {
+                console.log(error);
+                res.sendStatus(400);
+            }
+            else
+            {
+                db.pool.query(selectSale, [saleID], function(error, rows, fields) {
+                    if (error) {
+                        console.log(error);
+                        res.sendStatus(400);
+                    } else {
+                        console.log(rows);
+                        res.send(rows);
+                    }
+                });
+            }
+        });
 });
 
-app.post('/add-salesorder-ajax', function (req, res) {
-
-    // capture the incoming data and parse it back to a JS object
-    let data = req.body;
-
-    // capture NULL values
-    let customerID = data['customerID'] ? `'${data['customerID']}'` : 'NULL';
-    let orderDate = data['orderDate'] ? `'${data['orderDate']}'` : 'NULL';
-
-    // create the query and run it on the database
-    let query1 = `INSERT INTO SalesOrders (customerID, orderDate) VALUES ('${data['customerID']}', '${data['orderDate']}')`;
-
-    db.pool.query(query1, function (error, rows, fields) {
-
-        // check to see if there was an error
-        if (error) {
-
-            // log the error to the terminal so we know what went wrong,
-            // and send the visitor an HTTP response 400 indicating it was a bad request.
-            console.log(error)
-            res.sendStatus(400);
-        }
-
-        // if there was no error, we redirect back to SalesOrders route,
-        // which automatically runs the SELECT * FROM SalesOrders and presents it on the screen.
-        else {
-            // If there was no error, perform a SELECT * on SalesOrders
-            let query2 = `SELECT * FROM SalesOrders`;
-
-            db.pool.query(query2, function (error, rows, fields) {
-                if (error) {
-                    console.log(error);
-                    res.sendStatus(400);
-                } else {
-                    res.send(rows);
-                }
-            });
-        }
-    });
-});
 
 
 
