@@ -1,6 +1,6 @@
-
+<p id="select" style="display: block" style="margin-bottom:3cm;"></p>
 {{!-- Create a table --}}
-<table>
+<table border=".5" cellpadding="3">
 
     {{!-- Header section --}}
     <thead>
@@ -29,14 +29,14 @@
     </tbody>
 </table>
 
-<div id="insert" style="display: block">
+<p id="insert" style="display: block" style="margin-bottom:3cm;">
     <form id="add-category-form" method="POST" action="/add-category-form">
         <legend><strong>Add Product Category</strong></legend>
         <fieldset class="fields">
-            <label for="input-category">Category Name</label>
-            <input type="text" name="input-category" id="input-category">
+            <table>
+            <tr><td><input type="text" name="input-category" id="input-category" placeholder="Category Name">
             <br>
-            <input type="submit" value="Add Category">
+            <tr><td><input type="submit" value="Add Category">
         </fieldset>
     </form>
 </div>

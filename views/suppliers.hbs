@@ -1,15 +1,14 @@
+<table>
+    <form id="search-supplier-html" method="GET" action="/suppliers">
+        <input type="text" name="name" id="input-name-html-search" placeholder="Search by Supplier Name">
 
-<p>Search by name using the field below. Must be full name.</p>
-<form id="search-supplier-html" method="GET" action="/suppliers">
-    <label for="input-name">Search by Supplier Name:</label>
-    <input type="text" name="name" id="input-name-html-search">
-
-    <input type="submit">
-</form>
-    <a href="/suppliers"><button>Reset</button></a>
+        <input type="submit">
+    </form>
+       <tr><td><a href="/suppliers"><button>Reset</button></a>
 
 {{!-- Create a table --}}
-<table id="supplier-table">
+<p style="margin-bottom:.5cm;"></p>
+<table id="supplier-table" border=".5" cellpadding="3">
 
     {{!-- Header section --}}
     <thead>
@@ -20,7 +19,7 @@
             {{#each data.[0]}}
             <th>
                 {{@key}}
-            </th>
+            </th>   
             {{/each}}
         </tr>
     </thead>
@@ -40,32 +39,31 @@
         </tr>
         {{/each}}
     </tbody>
+</table>
 
-<div id="insert" style="display: block">
+
+<p style="margin-bottom:.5cm;" id="insert" style="display: block">
     <form id="add-supplier-form-ajax">
     <legend><strong>Add Supplier</strong></legend>
     <fieldset class="fields">
-        <label for="input-name">Supplier Name</label>
-        <input type="text" name="input-name" id="input-name">
-        <br>
+        <table>
+            <tr><td><input type="text" name="input-name" id="input-name" placeholder="Supplier Name">
+            <br>
 
-        <label for="input-contact-name">Contact Name</label>
-        <input type="text" name="input-contact-name" id="input-contact-name">
-        <br>
+            <tr><td><input type="text" name="input-contact-name" id="input-contact-name" placeholder="Contact Name">
+            <br>
 
-        <label for="input-email">Email</label>
-        <input type="text" name="input-email" id="input-email">
-        <br>
+            <tr><td><input type="text" name="input-email" id="input-email" placeholder="Email">
+            <br>
 
-        <label for="input-phone">Phone</label>
-        <input type="text" name="input-phone" id="input-phone">
-        <br>
+            <tr><td><input type="text" name="input-phone" id="input-phone" placeholder="Phone">
+            <br>
 
-        <label for="input-address">Address</label>
-        <input type="text" name="input-address" id="input-address">
-        <br>
+            <tr><td><input type="text" name="input-address" id="input-address" placeholder="Address">
+            <br>
 
-        <input type="submit">
+            <tr><td><input type="submit">
+        </table>
     </fieldset>
     </form>
 </div>

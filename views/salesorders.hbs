@@ -1,5 +1,6 @@
 {{!-- Create a table --}}
-<table id="salesorders-table">
+<p style="margin-bottom:.5cm;">
+<table id="salesorders-table" border=".5" cellpadding="3">
 
     {{!-- Header section --}}
     <thead>
@@ -30,16 +31,17 @@
 </tbody>
 </table>
 
-<div id="insert" style="display: block">
+<p style="margin-bottom:.5cm;" id="insert" style="display: block">
     <form id="add-salesorders-form-ajax">
         <legend><strong>Add Sale Order</strong></legend>
         <fieldset class="fields">
+            <table>
 
-            <label for="input-orderDate">Order Date</label>
+            <tr><td> <label for="input-orderDate">Order Date</label>
             <input type="date" name="input-orderDate" id="input-orderDate" value="{{todayDate}}">
             <br>
 
-            <select name="input-customerID" id="input-customerID">
+            <tr><td> <select name="input-customerID" id="input-customerID">
             <option value="">Select a Customer</option>
             {{#each customers}}
             <option value="{{this.customerID}}">{{this.firstName}}</option>
@@ -47,7 +49,7 @@
             </select>
             <br>
 
-            <input type="submit">
+            <tr><td> <input type="submit">
         </fieldset>
     </form>
 </div>

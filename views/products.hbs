@@ -1,15 +1,15 @@
-<p>Search by name using the field below. Must be full name.</p>
-<form id="search-product-html" method="GET" action="/products">
-    <label for="input-name">Search by Product Name:</label>
-    <input type="text" name="name" id="input-name-html-search">
+<table>
+    <form id="search-product-html" method="GET" action="/products">
+        <input type="text" name="name" id="input-name-html-search" placeholder="Search by Full Product Name">
 
-    <input type="submit">
-</form>
-    <a href="/products"><button>Reset</button></a>
+        <input type="submit">
+    </form>
+        <tr><td><a href="/products"><button>Reset</button></a>
 
 
 {{!-- Create a table --}}
-<table id="product-table">
+<p style="margin-bottom:.5cm;">
+<table id="product-table" border=".5" cellpadding="3">
 
     {{!-- Header section --}}
     <thead>
@@ -22,7 +22,6 @@
                 {{@key}}
             </th>
             {{/each}}
-
         </tr>
     </thead>
 
@@ -47,22 +46,18 @@
 <script src="../js/delete_product.js"></script>
 
 
-<div id="insert" style="display: block">
+<p id="insert" style="display: block" style="margin-bottom:3cm;">
     <form id="add-product-form-ajax">
     <legend><strong>Add Product</strong></legend>
     <fieldset class="fields">
         <table>
-            <tr><td><label for="input-name">Product Name</label>
-            <td><input type="text" name="input-name" id="input-name"><br>
+            <tr><td><input type="text" name="input-name" id="input-name" placeholder="Product Name"><br>
 
-            <tr><td><label for="input-description">Description</label>
-            <td><input type="text" name="input-description" id="input-description"><br>
+            <tr><td><input type="text" name="input-description" id="input-description" placeholder="Description"><br>
 
-            <tr><td><label for="input-unit-price">Unit Price</label>
-            <td><input type="text" name="input-unit-price" id="input-unit-price"><br>
+            <tr><td><input type="number" step="0.01" name="input-unit-price" id="input-unit-price" placeholder="Unit Price"><br>
 
-            <tr><td><label for="input-quantity">Quantity in Stock</label>
-            <td><input type="text" name="input-quantity" id="input-quantity"><br>
+            <tr><td><input type="number" name="input-quantity" id="input-quantity" placeholder="Quantity in Stock"><br>
 
             <tr><td><select name="input-supplier" id="input-supplier">
                     <option value="">Select a Supplier</option>
@@ -88,38 +83,37 @@
 </div>
 <script src="./js/add_product.js"></script>
 
-<legend><strong>Update Product Supplier</strong></legend>
-<form id="update-product-form-ajax">
+<p id="update" style="display: block" style="margin-bottom:3cm;"></p>
+    <form id="update-product-form-ajax">
+    <legend><strong>Update Product Supplier</strong></legend>
+    <fieldset class="fields">
+        <table>
 
-    <label for="input-name">Product Name:</label>
-    <select name="input-name" id="mySelect">
-        <option value="test">Select a Product</option>
-        {{#each data}}
-        <option value="{{this.productID}}">{{this.productName}}</option>
-        {{/each}}
-    </select>
+            <tr><td><select name="input-name" id="mySelect">
+                        <option value="test">Select a Product</option>
+                        {{#each data}}
+                        <option value="{{this.productID}}">{{this.productName}}</option>
+                        {{/each}}
+                    </select>
 
-    <label for="input-description">Description:</label>
-    <input type="text" name="input-description" id="input-description-update">
+            <tr><td><input type="text" name="input-description" id="input-description-update" placeholder="Description">
 
-    <label for="input-supplier">Supplier:</label>
-    <select name="input-supplier" id="input-supplier-update">
-        <option>Select a Supplier</option>
-        {{#each suppliers}}
-        <option value="{{this.supplierID}}">{{this.supplierName}}</option>
-        {{/each}}
-    </select>
+            <tr><td><select name="input-supplier" id="input-supplier-update">
+                        <option>Select a Supplier</option>
+                        {{#each suppliers}}
+                        <option value="{{this.supplierID}}">{{this.supplierName}}</option>
+                        {{/each}}
+                    </select>
 
-    <label for="input-category">Category:</label>
-    <select name="input-category-update" id="input-category-update">
-        <option value="">Select a Category</option>
-        {{#each categories}}
-        <option value="{{this.categoryID}}">{{this.category}}</option>
-        {{/each}}
-        <option>null</option>
-    </select>
+            <tr><td><select name="input-category-update" id="input-category-update">
+                <option value="">Select a Category</option>
+                {{#each categories}}
+                <option value="{{this.categoryID}}">{{this.category}}</option>
+                {{/each}}
+                <option>null</option>
+            </select>
 
-    <input type="submit">
+            <tr><td><input type="submit">
 
 </form>
 
