@@ -37,6 +37,7 @@ updateProductSalesForm.addEventListener("submit", function (e) {
     xhttp.onreadystatechange = () => {
         if (xhttp.readyState == 4 && xhttp.status == 200) {
 
+
             updateRow(data, saleIDvalue);
         }
         else if (xhttp.readyState == 4 && xhttp.status != 200) {

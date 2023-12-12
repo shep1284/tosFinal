@@ -74,6 +74,8 @@ addRowToTable = (data) => {
     let quantitySoldCell = document.createElement("TD");
     let salePriceCell = document.createElement("TD");
 
+    let deleteCell = document.createElement("TD");
+
     // Fill the cells with correct data
     idCell.innerText = newRow.productSaleID;
     productIDCell.innerText = newRow.productID;
@@ -81,13 +83,24 @@ addRowToTable = (data) => {
     quantitySoldCell.innerText = newRow.quantitySold;
     salePriceCell.innerText = newRow.salePrice;
 
+    deleteCell = document.createElement("button");
+    deleteCell.innerHTML = "Delete";
+    deleteCell.onclick = function(){
+        deleteProductSale(newRow.productSaleID);
+    };
+
     // Add the cells to the row 
     row.appendChild(idCell);
     row.appendChild(productIDCell);
     row.appendChild(orderIDCell);
     row.appendChild(quantitySoldCell);
     row.appendChild(salePriceCell);
+    row.appendChild(deleteCell);
 
+
+    // add a custom row attribute so the deleteRow function can find a newly added row
+    row.setAttribute('data-value', newRow.productID);
+    
     // Add the row to the table
     currentTable.appendChild(row);
     
