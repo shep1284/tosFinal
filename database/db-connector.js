@@ -1,3 +1,7 @@
+//Citation for the following file: db-connector.js
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 // Get an instance of mysql we can use in the app
 var mysql = require('mysql')
 

@@ -1,17 +1,9 @@
-
- <div class="topnav">
-  <a class="active" href="/">Home</a>
-  <a href="products">Products</a>
-  <a href="categories">Categories</a>
-  <a href="suppliers">Suppliers</a>
-  <a href="customers">Customers</a>
-  <a href="salesorders">SalesOrders</a>
-  <a href="productsales">ProductSales</a>
-</div> 
-
-<p style="margin-bottom:.5cm;"></p>
-<table>
-    <form id="search-product-html" method="GET" action="/products">
+{{!-- //Citation for the following file: productts.hbs
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<p>Search by name using the field below. Must be full name.</p>
+<form id="search-product-html" method="GET" action="/products">
         <input type="text" name="name" id="input-name-html-search" placeholder="Search by Full Product Name">
 
         <input type="submit">

@@ -1,3 +1,7 @@
+//Citation for the following file: update_productsale.js
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 let updateProductSalesForm = document.getElementById('update-productsales-form-ajax');
 
 updateProductSalesForm.addEventListener("submit", function (e) {

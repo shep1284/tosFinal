@@ -1,3 +1,7 @@
+//Citation for the following file: delet_product.js
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 function deleteProduct(productID) {
     // put our data we want to send in a javascript object
     let data = {

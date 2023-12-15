@@ -1,3 +1,8 @@
+//Citation for the following file: app.js
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app
+
 const express = require('express');
 const path = require('path');
 const app = express();

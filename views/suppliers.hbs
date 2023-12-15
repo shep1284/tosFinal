@@ -1,21 +1,14 @@
+{{!-- //Citation for the following file: suppliers.hbs
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app --}}
+<p>Search by name using the field below. Must be full name.</p>
+<form id="search-supplier-html" method="GET" action="/suppliers">
+    <label for="input-name">Search by Supplier Name:</label>
+    <input type="text" name="name" id="input-name-html-search">
 
- <div class="topnav">
-  <a class="active" href="/">Home</a>
-  <a href="products">Products</a>
-  <a href="categories">Categories</a>
-  <a href="suppliers">Suppliers</a>
-  <a href="customers">Customers</a>
-  <a href="salesorders">SalesOrders</a>
-  <a href="productsales">ProductSales</a>
-</div> 
-
-<p style="margin-bottom:.5cm;"></p>
-<table>
-    <form id="search-supplier-html" method="GET" action="/suppliers">
-        <input type="text" name="name" id="input-name-html-search" placeholder="Search by Supplier Name">
-
-        <input type="submit">
-    </form>
+    <input type="submit">
+</form>
        <tr><td><a href="/suppliers"><button>Reset</button></a>
 
 {{!-- Create a table --}}

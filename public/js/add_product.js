@@ -1,3 +1,7 @@
+//Citation for the following file: add_product.js
+//Date: 12/11/2023
+//Adapted from: osu-cs340-ecampus/nodejs-starter-app
+//Source Url: https://github.com/osu-cs340-ecampus/nodejs-starter-app
 // Get the objects we need to modify
 let addProductForm = document.getElementById('add-product-form-ajax');
 
